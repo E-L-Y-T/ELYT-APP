@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dashboard - ELYT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<script src="/static/js/RGraph.common.core.js"></script>
+<script src="/static/js/RGraph.common.dynamic.js"></script>
+<script src="/static/js/RGraph.common.tooltips.js"></script>
+<script src="/static/js/RGraph.hbar.js"></script>
+<script src="/static/js/RGraph.common.key.js"></script>
+
+<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/bootstrap-responsive.min.css') }}" rel="stylesheet">
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/font-awesome.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/def_style.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/pages/dashboard.css') }}" rel="stylesheet">
+
+</head>
+<body>
+
+        <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                  <div class="container"> <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span> </a>
+                     <a class="brand" href="/"><img src="../static/img/elyt_logo2.png" alt="ELYT" style="width: 40px;"></a>
+                     <div class="nav-collapse">
+                      <ul class="nav pull-right">
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i> elyt-ai@demo  <b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                            <li><a href="javascript:;">Settings</a></li>
+                            <li><a href="javascript:;">Help</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                      <form class="navbar-search pull-right">
+                        <input type="text" class="search-query" placeholder="Search">
+                      </form>
+                    </div>
+                    <!--/.nav-collapse --> 
+                  </div>
+                  <!-- /container --> 
+                </div>
+                <!-- /navbar-inner --> 
+              </div>
+              <!-- /navbar -->
+              <div class="subnavbar">
+                <div class="subnavbar-inner">
+                  <div class="container">
+                    <ul class="mainnav">
+                      <li><a href="javascript:;"><i class="icon-facetime-video"></i><span>App Tour</span> </a></li>
+                      <li class="active" style="background-color: #1523842e;"><a href="javascript:history.back()"><i class="icon-arrow-left"></i><span>Back</span> </a> </li>
+                      <li style="border-right: 1px solid #d9d9d9;"><a href="javascript:;"><i class="icon-list-alt"></i><span>Reports</span> </a> </li>
+                    </ul>
+                  </div>
+                  <!-- /container --> 
+                </div>
+                <!-- /subnavbar-inner --> 
+              </div>
+
+              <div class="main" style="border-bottom: 0px;">
+                    <div class="main-inner">
+                      <div class="container">
+                        <div class="row">
+                        
+                          <div class="span12">
+                            <div class="widget">
+                              <div class="widget-header" style="height: auto;padding: 10px;background: #16248924;text-align: center;">
+                                <h2>Top Percent from list of uploaded file</h2>
+                                <h4>Select on any customer's bar to generate link for accessing customer's details and prediction of reason for leaving</h4>
+                              </div>
+                              <!-- /widget-header -->
+                              <div class="widget-content">
+                                <div class="widget big-stats-container" style="margin-bottom: 0px;">
+                                  <div class="widget-content" style="background: #F5F5F5;">
+                                    <div class="cf">
+                                            <canvas id="cvss" width="600" height="400" >
+                                                    [No canvas support]
+                                                </canvas>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                        <!-- /row --> 
+                      </div>
+                      <!-- /container --> 
+                    </div>
+                    <!-- /main-inner --> 
+                  </div>
+
+<script>
+    window.onload = function ()
+    {
+        var hbar = new RGraph.HBar({
+            id: 'cvss',
+            data:    [{% for item in values_res %}
+                      {{item}},
+                    {% endfor %}],
+            options: {
+                backgroundGrid: false,
+                xmax: 100,
+                scaleDecimals: 1,
+                colors: ['#79c3e8','#79c3e8','#79c3e8','#79c3e8','#79c3e8'],
+                colorsSequential: true,
+		tooltips: [
+                {% for l in outList %}
+                 'Customer : <a href="/check/{{l}}" value="{{l}}" >{{l}}</a>',
+                 {% endfor %}],
+                labels:  [{% for item in outList %}
+                      "{{item}}",
+                    {% endfor %}],
+		
+                labelsAbove: true,
+                labelsAboveDecimals: 1,
+		labelsAboveUnitsPost: '%',
+                noxaxis: true,
+                gutterLeft: 125,
+                xlabels: false,
+                textAccessible: true
+            }
+        }).grow();
+    };
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dashboard - ELYT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<script src="/static/js/RGraph.common.core.js"></script>
+ <script src='/static/js/Chart.min.js'></script>
+<script src="/static/js/RGraph.common.dynamic.js"></script>
+<script src="/static/js/RGraph.common.context.js"></script>
+<script src="/static/js/RGraph.common.annotate.js"></script>
+<script src="/static/js/RGraph.bar.js"></script>
+<script src="/static/js/RGraph.meter.js"></script>
+
+<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/bootstrap-responsive.min.css') }}" rel="stylesheet">
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/font-awesome.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/def_style.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/pages/dashboard.css') }}" rel="stylesheet">
+
+<style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        /* Create two equal columns that floats next to each other */
+        .column1 {
+            float: left;
+            width: 40%;
+            padding: 10px;
+        
+        }
+        .column2 {
+            float: left;
+            width: 60%;
+            padding: 10px;
+           
+        }
+        .column3 {
+            float: right;
+            width: 60%;
+            padding: 10px;
+           
+        }
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        </style>
+
+</head>
+<body>
+<script>
+    window.onload = function ()
+    {
+        var bar = new RGraph.Bar({
+            id: 'cvss',
+            data:  [{% for item in values_res %}
+                      {{item}},
+                    {% endfor %}],
+            options: {
+                labels: ["Excess Documents Required","High Service Charges/Rate of Interest","Inexperienced Staff / Bad customer service","Long Response Times"],
+                annotatable: false,
+		showInLegend:true,
+                annotateLinewidth: 20,
+                strokestyle: 'rgba(0,0,0,0)',
+                contextmenu: [['Clear', function () {RGraph.Clear(bar.canvas); RGraph.ClearAnnotations(bar.canvas); bar.Draw();}]],
+                textSize: 7,
+                noxaxis: true,
+                backgroundGridVlines: false,
+                backgroundGridBorder: false,
+                gutterLeft: 35,
+                textAccessible: true
+            }
+        }).draw();
+    };
+</script>
+
+<div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container"> <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span> </a>
+             <a class="brand" href="/"><img src="../static/img/elyt_logo2.png" alt="ELYT" style="width: 40px;"></a>
+             <div class="nav-collapse">
+              <ul class="nav pull-right">
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i> elyt-ai@demo <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="javascript:;">Settings</a></li>
+                    <li><a href="javascript:;">Help</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <form class="navbar-search pull-right">
+                <input type="text" class="search-query" placeholder="Search">
+              </form>
+            </div>
+            <!--/.nav-collapse --> 
+          </div>
+          <!-- /container --> 
+        </div>
+        <!-- /navbar-inner --> 
+      </div>
+      <!-- /navbar -->
+      <div class="subnavbar">
+        <div class="subnavbar-inner">
+          <div class="container">
+            <ul class="mainnav">
+              <li><a href="javascript:;"><i class="icon-facetime-video"></i><span>App Tour</span> </a></li>
+              <li class="active" style="background-color: #1523842e;"><a href="javascript:history.back()"><i class="icon-arrow-left"></i><span>Back</span> </a> </li>
+              <li style="border-right: 1px solid #d9d9d9;"><a href="javascript:;"><i class="icon-list-alt"></i><span>Reports</span> </a> </li>
+            </ul>
+          </div>
+          <!-- /container --> 
+        </div>
+        <!-- /subnavbar-inner --> 
+      </div>
+
+<div class="main">
+        <div class="main-inner">
+          <div class="container">
+            <div class="row">
+            
+                    <div class="span4">
+                            <div class="widget">
+                              <div class="widget-header" style="height: auto;padding: 10px;background: #16248924;text-align: center;">
+                                <h3>Customer Details</h3>
+                              </div>
+                              <!-- /widget-header -->
+                              <div class="widget-content">
+                                  <div class="widget big-stats-container" style="margin-bottom: 0px;">
+                                  <div class="widget-content" style="background: #F5F5F5;padding: 10px 15px 10px;margin-bottom: 10px;">
+                                        RowNumber     : {{rownum}} 
+                                    </div>
+                                    <div class="widget-content" style="background: #F5F5F5;padding: 10px 15px 10px;margin-bottom: 10px;">
+                                        CustomerID    : {{ccid}} 
+                                    </div>
+                                    <div class="widget-content" style="background: #F5F5F5;padding: 10px 15px 10px;margin-bottom: 10px;">
+                                        Surname       : {{surname}} 
+                                    </div>
+                                    <div class="widget-content" style="background: #F5F5F5;padding: 10px 15px 10px;margin-bottom: 10px;">
+                                        Gender        : {{gender}}
+                                    </div>
+                                   <!--  <div class="widget-content" style="background: #F5F5F5;padding: 10px 15px 10px;margin-bottom: 10px;">
+                                        Geography     : {{geo}}
+                                    </div>  -->
+                                    <div class="widget-content" style="background: #F5F5F5;padding: 10px 15px 10px;margin-bottom: 10px;">
+                                        CreditScore   : {{creditscore}}
+                                    </div>
+                                    <div class="widget-content" style="background: #F5F5F5;padding: 10px 15px 10px;margin-bottom: 10px;">
+                                        Age  : {{age}}
+                                    </div>
+                                    <div class="widget-content" style="background: #F5F5F5;padding: 10px 15px 10px;margin-bottom: 10px;">
+                                        Tenure        : {{tenure}}
+                                    </div>
+                                    <div class="widget-content" style="background: #F5F5F5;padding: 10px 15px 10px;margin-bottom: 10px;">
+                                       Gender        : {{gender}}
+                                    </div>
+                                    <div class="widget-content" style="background: #F5F5F5;padding: 10px 15px 10px;margin-bottom: 10px;">
+                                        Acc. Balance       : {{balance}}
+                                    </div>
+                                    <div class="widget-content" style="background: #F5F5F5;padding: 10px 15px 10px;margin-bottom: 10px;">
+                                        NumofProducts : {{numpro}}
+                                    </div>
+                                    <div class="widget-content" style="background: #F5F5F5;padding: 10px 15px 10px;margin-bottom: 10px;">
+                                        HasCrCard     : {{hascard}}
+                                    </div>
+                                    <div class="widget-content" style="background: #F5F5F5;padding: 10px 15px 10px;margin-bottom: 10px;">
+                                        IsActiveMember: {{activemem}}
+                                    </div>   
+                                    <div class="widget-content" style="background: #F5F5F5;padding: 10px 15px 10px;margin-bottom: 10px;">
+                                        Salary        : {{salary}}
+                                    </div>   
+                            </div>
+                            </div>
+                            </div>
+                          </div>
+              <!-- /span6 -->
+              <div class="span8">
+                    <div class="widget">
+                            <div class="widget-header" style="height: auto;padding: 10px;background: #16248924;text-align: center;">
+                              <h3>Prediction of Customer Churn Probability</h3>
+                            </div>
+                            <!-- /widget-header -->
+                            <div class="widget-content">
+                                <div class="widget big-stats-container" style="margin-bottom: 0px;">
+                                <div class="widget-content" style="background: #F5F5F5;">
+                                  <div class="cf" style="text-align: center;">
+                                        <canvas id="cvs" width="700" height="200">
+                                                [No canvas support]
+                                            </canvas>
+                                            <font color=rebeccapurple><center><h3>Probability to leave organization is {{ firstname }}%</h3></center></font>
+                                               <hr style="border: 1px solid;">
+                                                   <script>
+                                                       
+                                                   meter = new RGraph.Meter({
+                                                       id: 'cvs',
+                                                       min: 0,
+                                                       max: 100,
+                                                       value:  [{% for item in values %}
+                                                                     {{item}},
+                                                                   {% endfor %}],
+                                                       options: {
+                                                           segmentRadiusStart: 125,
+                                                           needleRadius: 115,
+                                                           needleType: 'pointer',
+                                                           tickmarksBigColor: 'transparent',
+                                                           tickmarksSmallColor: 'transparent',
+                                                           labels: false,
+                                                           linewidth: 0.0001,
+                                                           linewidthSegments: 20,
+                                                           strokestyle: 'white',
+                                                           colorsRanges: [
+                                                               [0, 33, '#8FCE21'],
+                                                               [33, 66, '#FFC900'],
+                                                               [66, 100, '#FF0000']
+                                                           ]
+                                                       }
+                                                   }).grow();
+                                                   
+                                                   
+                                               </script>
+                                               <font color=purple><center><h4>If the above probability of leaving becomes true and customer leaves, then what might be unsatisfactory factors contributing to his reason for leaving? Our Pie Graph shows the prediction for that</h4></center></font>
+                                  </div>
+                            </div>
+                          </div>
+                          </div>
+                          </div>
+                <!-- /widget -->
+                <div class="widget">
+                        <div class="widget-header" style="height: auto;padding: 10px;background: #16248924;text-align: center;">
+                          <h3>Prediction of Reason for Leaving</h3>
+                        </div>
+                        <!-- /widget-header -->
+                        <div class="widget-content">
+                            <div class="widget big-stats-container" style="margin-bottom: 0px;">
+                            <div class="widget-content" style="background: #F5F5F5;">
+                              <div class="cf" style="text-align: center;">
+                                    <div class="column1"><canvas id="chart" width="430" height="330"></canvas>
+                                    <script>
+                                            var pieData = [
+                                                     {% for item,label,colors in set %}
+                                                         {
+                                                             value: {{item}},
+                                                             label: "{{label}}",
+                                                     color : "{{colors}}"	
+                                                         },
+                                                         {% endfor %}
+                                                  
+                                          
+                                                  ];
+                                          
+                                            // get bar chart canvas
+                                            var mychart = document.getElementById("chart").getContext("2d");
+                                          
+                                            steps = 20
+                                            max = 20
+                                            // draw pie chart
+                                            new Chart(document.getElementById("chart").getContext("2d")).Pie(pieData);
+                                          
+                                         </script>
+                                         </div>
+                                         <div style="float:left;  padding-left: 200px;">
+                                         
+                                         <ul style="list-style-type:none">
+                                         <li>
+                                             <div style="font-family:verdana; font-size:75% ; background: #ABCDEF;width: 180px; padding:10px ;height: 80px;color:#000">Long Response Times: {{secondname3}}%</div>
+                                             <div style="font-family:verdana;font-size:75% ;background: #FDB45C;width: 180px;height: 80px;padding:10px;color:#000"> Inexperienced Staff / Bad customer service: {{secondname2}}% </div>	
+                                         </li>
+                                         
+                                         <li>
+                                             <div style="font-family:verdana;font-size:75% ;background: #46BFBD;width: 180px;height: 80px;padding:10px;color:#000">High Service Charges/Rate of Interest: {{secondname1}}%</div>
+                                             <div style="font-family:verdana;font-size:75% ;background: #d9c3ff;width: 180px;height: 80px;padding:10px;color:#000">Excess Documents Required: {{secondname}}%</div> 	
+                                         </li>
+                                         </ul>
+                                         </div>
+                              </div>
+                        </div>
+                      </div>
+                      </div>
+                      </div>
+      
+              </div>
+              <!-- /span6 --> 
+            </div>
+            <!-- /row --> 
+          </div>
+          <!-- /container --> 
+        </div>
+        <!-- /main-inner --> 
+      </div>
+
+</body>
+</html>
